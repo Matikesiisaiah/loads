@@ -1,0 +1,27 @@
+
+{% extends "base.html" %}
+{% block title %}Load #{{ load.id }}{% endblock %}
+{% block content %}
+<h1>{{ load.title }}</h1>
+<p><strong>{{ load.origin_city }}</strong> ({{ load.origin_lat }}, {{ load.origin_lon }}) → <strong>{{ load.dest_city }}</strong> ({{ load.dest_lat }}, {{ load.dest_lon }})</p>
+<p>{{ '%.0f' % load.weight_kg }} kg · {{ load.equipment }} · {{ load.pickup_date or "ASAP" }}</p>
+{% if load.price_offer %}<p>Offer: ${{ '%.0f' % load.price_offer }}</p>{% endif %}
+{% if current_user.is_authenticated %}
+  <a class="btn" href="{{ url_for('favorite_load', load_id=load.id) }}">☆ Save</a>
+{% endif %}
+<h2>Nearby trucks</h2>
+<ul>
+  {% for t, dist in nearby %}
+    <li>{{ t.plate }} · {{ t.equipment }} · {{ t.current_city }}
+      {% if dist %} — ~{{ '%.0f' % dist }} km away{% endif %}
+      {% if current_user.is_authenticated and current_user.is_shipper %}
+        <form action="{{ url_for('book', load_id=load.id, truck_id=t.id) }}" method="post" style="display:inline">
+          <button class="btn">Book</button>
+        </form>
+      {% endif %}
+    </li>
+  {% else %}
+    <li>No trucks found.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

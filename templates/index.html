@@ -1,0 +1,32 @@
+
+{% extends "base.html" %}
+{% block title %}Home · LoadBoard{% endblock %}
+{% block content %}
+<h1>Find loads & trucks fast</h1>
+<p>Post a load, list a truck, match by equipment and distance, chat, and book.</p>
+
+<h2>Latest Loads</h2>
+<div class="grid">
+  {% for l in loads %}
+  <div class="card">
+    <h3><a href="{{ url_for('load_detail', load_id=l.id) }}">{{ l.title }}</a></h3>
+    <p><strong>{{ l.origin_city }}</strong> → <strong>{{ l.dest_city }}</strong></p>
+    <p>{{ '%.0f' % l.weight_kg }} kg · {{ l.equipment }} · {{ l.pickup_date or "ASAP" }}</p>
+  </div>
+  {% else %}
+  <p>No loads yet.</p>
+  {% endfor %}
+</div>
+
+<h2>Latest Trucks</h2>
+<div class="grid">
+  {% for t in trucks %}
+  <div class="card">
+    <h3>{{ t.plate }} · {{ t.equipment }}</h3>
+    <p>{{ t.current_city }} · {{ '%.0f' % t.capacity_kg }} kg</p>
+  </div>
+  {% else %}
+  <p>No trucks yet.</p>
+  {% endfor %}
+</div>
+{% endblock %}

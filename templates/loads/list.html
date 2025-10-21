@@ -1,0 +1,26 @@
+
+{% extends "base.html" %}
+{% block title %}Loads{% endblock %}
+{% block content %}
+<h1>Loads</h1>
+<form method="get" class="search">
+  {{ form.origin_city.label }} {{ form.origin_city(size=12) }}
+  {{ form.dest_city.label }} {{ form.dest_city(size=12) }}
+  {{ form.earliest_date.label }} {{ form.earliest_date() }}
+  {{ form.latest_date.label }} {{ form.latest_date() }}
+  {{ form.radius_km.label }} {{ form.radius_km(size=5) }}
+  {{ form.submit(class="btn") }}
+</form>
+<div class="grid">
+  {% for l in loads %}
+  <div class="card">
+    <h3><a href="{{ url_for('load_detail', load_id=l.id) }}">{{ l.title }}</a></h3>
+    <p><strong>{{ l.origin_city }}</strong> → <strong>{{ l.dest_city }}</strong></p>
+    <p>{{ '%.0f' % l.weight_kg }} kg · {{ l.equipment }} · {{ l.pickup_date or "ASAP" }}</p>
+    {% if l.price_offer %}<p>Offer: ${{ '%.0f' % l.price_offer }}</p>{% endif %}
+  </div>
+  {% else %}
+  <p>No results.</p>
+  {% endfor %}
+</div>
+{% endblock %}

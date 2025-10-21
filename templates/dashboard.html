@@ -1,0 +1,42 @@
+
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h1>Dashboard</h1>
+{% if current_user.is_shipper %}
+  <a class="btn" href="{{ url_for('loads_new') }}">+ Post a load</a>
+{% endif %}
+{% if current_user.is_carrier %}
+  <a class="btn" href="{{ url_for('trucks_new') }}">+ List a truck</a>
+{% endif %}
+{% if current_user.is_admin %}
+  <a class="btn" href="{{ url_for('admin_seed') }}">Seed demo data</a>
+{% endif %}
+<h2>Your loads</h2>
+<ul>
+  {% for l in loads %}
+    <li><a href="{{ url_for('load_detail', load_id=l.id) }}">{{ l.title }}</a> · {{ l.origin_city }}→{{ l.dest_city }}</li>
+  {% else %}<li>No loads.</li>{% endfor %}
+</ul>
+
+<h2>Your trucks</h2>
+<ul>
+  {% for t in trucks %}
+    <li>{{ t.plate }} · {{ t.current_city }}</li>
+  {% else %}<li>No trucks.</li>{% endfor %}
+</ul>
+
+<h2>Your bookings</h2>
+<ul>
+  {% for b in bookings %}
+    <li><a href="{{ url_for('booking_detail', booking_id=b.id) }}">Booking #{{ b.id }}</a> · {{ b.status }}</li>
+  {% else %}<li>No bookings.</li>{% endfor %}
+</ul>
+
+<h2>Saved loads</h2>
+<ul>
+  {% for f in favs %}
+    <li><a href="{{ url_for('load_detail', load_id=f.load_id) }}">Load #{{ f.load_id }}</a></li>
+  {% else %}<li>No favorites.</li>{% endfor %}
+</ul>
+{% endblock %}

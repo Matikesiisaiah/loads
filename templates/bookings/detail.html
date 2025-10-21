@@ -1,0 +1,27 @@
+
+{% extends "base.html" %}
+{% block title %}Booking #{{ booking.id }}{% endblock %}
+{% block content %}
+<h1>Booking #{{ booking.id }}</h1>
+<p>Status: <strong>{{ booking.status }}</strong></p>
+<form method="post" action="{{ url_for('booking_status', booking_id=booking.id) }}">
+  <select name="status">
+    {% for s in ["pending","accepted","in_transit","delivered","cancelled"] %}
+      <option value="{{ s }}" {% if s==booking.status %}selected{% endif %}>{{ s }}</option>
+    {% endfor %}
+  </select>
+  <button class="btn">Update</button>
+</form>
+<h2>Messages</h2>
+<ul class="messages">
+  {% for m in messages %}
+    <li><strong>{{ m.sender.name }}</strong>: {{ m.text }} <span class="muted">{{ m.created_at }}</span></li>
+  {% else %}
+    <li>No messages.</li>
+  {% endfor %}
+</ul>
+<form method="post">
+  {{ form.hidden_tag() }}
+  {{ form.text(rows=3, cols=60) }} {{ form.submit(class="btn") }}
+</form>
+{% endblock %}

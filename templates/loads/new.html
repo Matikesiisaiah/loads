@@ -1,0 +1,16 @@
+
+{% extends "base.html" %}
+{% block title %}Post Load{% endblock %}
+{% block content %}
+<h1>Post a Load</h1>
+<form method="post">
+  {{ form.hidden_tag() }}
+  <div class="form-row">{{ form.title.label }} {{ form.title(size=40) }}</div>
+  <div class="form-row">{{ form.origin_city.label }} {{ form.origin_city(size=20) }} {{ form.origin_lat.label }} {{ form.origin_lat(size=10) }} {{ form.origin_lon.label }} {{ form.origin_lon(size=10) }}</div>
+  <div class="form-row">{{ form.dest_city.label }} {{ form.dest_city(size=20) }} {{ form.dest_lat.label }} {{ form.dest_lat(size=10) }} {{ form.dest_lon.label }} {{ form.dest_lon(size=10) }}</div>
+  <div class="form-row">{{ form.weight_kg.label }} {{ form.weight_kg(size=10) }} {{ form.equipment.label }} {{ form.equipment(size=20) }}</div>
+  <div class="form-row">{{ form.pickup_date.label }} {{ form.pickup_date() }} {{ form.price_offer.label }} {{ form.price_offer(size=10) }}</div>
+  <div class="form-row">{{ form.notes.label }} {{ form.notes(rows=3, cols=60) }}</div>
+  {{ form.submit(class="btn") }}
+</form>
+{% endblock %}

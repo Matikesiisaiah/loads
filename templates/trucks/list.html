@@ -1,0 +1,17 @@
+
+{% extends "base.html" %}
+{% block title %}Trucks{% endblock %}
+{% block content %}
+<h1>Trucks</h1>
+<div class="grid">
+  {% for t in trucks %}
+  <div class="card">
+    <h3>{{ t.plate }} · {{ t.equipment }}</h3>
+    <p>{{ t.current_city }} · {{ '%.0f' % t.capacity_kg }} kg</p>
+    <p>Available: {{ t.available_date or "ASAP" }}</p>
+  </div>
+  {% else %}
+  <p>No trucks yet.</p>
+  {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+
+{% extends "base.html" %}
+{% block title %}Match{% endblock %}
+{% block content %}
+<h1>Match Loads & Trucks</h1>
+<form method="get" class="search">
+  {{ form.radius_km.label }} {{ form.radius_km(size=6) }}
+  {{ form.submit(class="btn") }}
+</form>
+<table class="table">
+  <thead><tr><th>Load</th><th>Truck</th><th>Distance</th><th>Action</th></tr></thead>
+  <tbody>
+  {% for load, truck, dist in matches %}
+    <tr>
+      <td><a href="{{ url_for('load_detail', load_id=load.id) }}">{{ load.title }}</a> ({{ load.origin_city }}→{{ load.dest_city }})</td>
+      <td>{{ truck.plate }} · {{ truck.equipment }} ({{ truck.current_city }})</td>
+      <td>{% if dist %}~{{ '%.0f' % dist }} km{% else %}n/a{% endif %}</td>
+      <td>
+        {% if current_user.is_authenticated and current_user.is_shipper %}
+          <form action="{{ url_for('book', load_id=load.id, truck_id=truck.id) }}" method="post">
+            <button class="btn">Book</button>
+          </form>
+        {% else %}-{% endif %}
+      </td>
+    </tr>
+  {% else %}
+    <tr><td colspan="4">No matches yet.</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

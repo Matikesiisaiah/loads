@@ -1,0 +1,14 @@
+
+{% extends "base.html" %}
+{% block title %}List Truck{% endblock %}
+{% block content %}
+<h1>List a Truck</h1>
+<form method="post">
+  {{ form.hidden_tag() }}
+  <div class="form-row">{{ form.plate.label }} {{ form.plate(size=20) }} {{ form.equipment.label }} {{ form.equipment(size=20) }}</div>
+  <div class="form-row">{{ form.capacity_kg.label }} {{ form.capacity_kg(size=10) }}</div>
+  <div class="form-row">{{ form.current_city.label }} {{ form.current_city(size=20) }} {{ form.current_lat.label }} {{ form.current_lat(size=10) }} {{ form.current_lon.label }} {{ form.current_lon(size=10) }}</div>
+  <div class="form-row">{{ form.available_date.label }} {{ form.available_date() }}</div>
+  {{ form.submit(class="btn") }}
+</form>
+{% endblock %}
